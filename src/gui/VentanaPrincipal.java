@@ -25,7 +25,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         initComponents();
         this.opDecimalIN.setSelected(true);
         this.opDecimalOUT.setSelected(true);
-        numH(txtEntrada);
+        this.validadorCaracter(txtEntrada);
     }
 
     /**
@@ -387,21 +387,40 @@ public static boolean validarD(String datos){
         JOptionPane.showMessageDialog(this, mensaje, "Información", JOptionPane.WARNING_MESSAGE);
     }
     
-    private void numH(JTextField a){
+    private void validadorCaracter(JTextField a){
     a.addKeyListener(new KeyAdapter() {
     public void keyTyped(KeyEvent e){
         char c = e.getKeyChar();
+        if(opBinariolIN.isSelected()){
+            if(c!='0' && c!='1'){
+                e.consume();
+            }
+        }
+        if(opHexaIN.isSelected()){
         if(!Character.isDigit(c) && c!='a' && c!='b' && c!='c' && c!='d' 
                 && c!='e' && c!='f' && c!='A' 
                 && c!='B' && c!='C' && c!='D'
                 && c!='E' && c!='F'){
             e.consume();
         }
+        }
+        if(opDecimalIN.isSelected())
+        {
+            if(!Character.isDigit(c)){
+            e.consume();
+        }
+        }
+        if(opOctalN.isSelected()){
+            if(c!='0' && c!='1' && c!='2' && c!='3' && c!='4' && c!='5' && c!='6' && c!='7'){
+            e.consume();
+        }
+        }
         
         /*if(c == '.' && txtEntrada.getText().contains(".")){
             e.consume();
         }*/
     }
+    
 });
 }
     /*private void numD(JTextField b){
@@ -430,6 +449,8 @@ private void numB(JTextField a){
     a.addKeyListener(new KeyAdapter() {
     public void keyTyped(KeyEvent e){
         char c = e.getKeyChar();
+        
+        System.out.println("numB "+c);
         if(c!='0' && c!='1'){
             e.consume();
         }
